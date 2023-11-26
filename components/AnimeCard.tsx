@@ -1,4 +1,5 @@
-import Image from "next/image";
+import { Image } from "@nextui-org/react";
+import { MotionDiv } from "./MotionDiv";
 
 export interface AnimeProp {
   id: string;
@@ -17,18 +18,33 @@ interface Prop {
   index: number;
 }
 
-function AnimeCard({ anime }: Prop) {
+const variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+};
+
+function AnimeCard({ anime, index }: Prop) {
   return (
-    <div className="max-w-sm rounded relative w-full">
-      <div className="relative w-full h-[37vh]">
+    <MotionDiv
+      className="max-w-sm rounded relative w-full"
+      variants={variants}
+      initial="hidden"
+      animate="visible"
+      transition={{
+        delay: index * 0.25,
+        ease: "easeInOut",
+        duration: 0.5,
+      }}
+    >
+      <div className="w-full">
         <Image
-          src={anime.image.original}
+          src={`https://shikimori.one${anime.image.original}`}
           alt={anime.name}
-          fill
+          
           className="rounded-xl"
         />
       </div>
-      <div className="py-4 flex flex-col gap-3">
+      {/* <div className="py-4 flex flex-col gap-3">
         <div className="flex justify-between items-center gap-1">
           <h2 className="font-bold text-white text-xl line-clamp-1 w-full">
             {anime.name}
@@ -63,8 +79,8 @@ function AnimeCard({ anime }: Prop) {
             <p className="text-base font-bold text-[#FFAD49]">{anime.score}</p>
           </div>
         </div>
-      </div>
-    </div>
+      </div> */}
+    </MotionDiv>
   );
 }
 
